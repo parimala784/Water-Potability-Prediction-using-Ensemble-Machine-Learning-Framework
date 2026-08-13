@@ -1,0 +1,73 @@
+================================================================================
+  WATER QUALITY PREDICTION - TEST SAMPLES (Potable & Non-Potable)
+================================================================================
+
+--------------------------------------------------------------------------------
+POTABLE (Safe to Drink) - Use these to get "Potable" / "Safe to Drink"
+--------------------------------------------------------------------------------
+
+--- Option 1: From dataset (reliable Potable example) ---
+ph              9.45
+Hardness        145.81
+Solids          13169.00
+Chloramines     9.44
+Sulfate         310.58
+Conductivity    592.66
+Organic_carbon  8.61
+Trihalomethanes 77.58
+Turbidity       3.88
+
+--- Option 2: Another potable sample ---
+ph              9.02
+Hardness        128.10
+Solids          19859.68
+Chloramines     8.02
+Sulfate         300.15
+Conductivity    451.14
+Organic_carbon  14.77
+Trihalomethanes 73.78
+Turbidity       3.99
+
+Note: Use Chloramines 9.44 (not 0.44) in Option 1 for correct Potable result.
+
+
+--------------------------------------------------------------------------------
+NON-POTABLE (Not Safe to Drink) - Use these to get "Not Potable"
+--------------------------------------------------------------------------------
+
+--- Option 1: From dataset (real non-potable sample) ---
+ph              7.04
+Hardness        204.89
+Solids          20791.32
+Chloramines     7.30
+Sulfate         368.52
+Conductivity    564.31
+Organic_carbon  10.38
+Trihalomethanes 86.99
+Turbidity       2.96
+
+--- Option 2: Clearly unsafe (rules force Not Potable) ---
+ph              4.50
+Hardness        50
+Solids          50000
+Chloramines     0.13
+Sulfate         500
+Conductivity    1500
+Organic_carbon  25
+Trihalomethanes 120
+Turbidity       6
+
+--- Option 3: High THMs only ---
+ph              7.0
+Hardness        200
+Solids          15000
+Chloramines     7
+Sulfate         300
+Conductivity    400
+Organic_carbon  12
+Trihalomethanes 95
+Turbidity       3
+
+================================================================================
+End of test sample file
+================================================================================

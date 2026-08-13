@@ -1,0 +1,217 @@
+================================================================================
+  WATER QUALITY FORECASTING AND VISUALIZATION - PROJECT INFORMATION
+================================================================================
+
+--------------------------------------------------------------------------------
+1. ABSTRACT
+--------------------------------------------------------------------------------
+
+This project presents an end-to-end machine learning system for predicting water
+potability based on nine physicochemical parameters. The system employs multiple
+classification algorithms—including Random Forest, XGBoost, CatBoost, LightGBM,
+SVM, Extra Trees, and MLP Neural Networks—combined with SMOTE oversampling and
+synthetic data augmentation to address class imbalance. An ensemble and stacking
+meta-learner are used to improve robustness. The models achieve approximately
+64–67% accuracy on the Water Potability dataset, with the best model selected
+automatically after training.
+
+A modern web application built with React, TypeScript, and FastAPI provides an
+interactive interface for making predictions, viewing dataset statistics, and
+exploring visualizations. Features include a model switcher (defaulting to the
+best-performing model), a dataset analytics dashboard, correlation heatmaps,
+distribution charts, and a chatbot with 100+ water quality Q&A. The application
+supports dark and light themes and is fully responsive.
+
+Keywords: Water potability, machine learning, classification, ensemble methods,
+SMOTE, React, FastAPI, data visualization.
+
+
+--------------------------------------------------------------------------------
+2. ACCURACY REPORTS
+--------------------------------------------------------------------------------
+
+Evaluated on 20% held-out test set (stratified, random_state=42). Current
+saved models were evaluated with: python backend/evaluate_models.py
+
+Best model by accuracy (current saved models): Extra Trees — 64.63%
+(Note: best_model.json may point to Stacking from an earlier training run.)
+
+Generated figures:
+  - images/confusion_matrices/  : per-model confusion matrices
+  - images/confusion_matrix_grid.png
+  - images/model_comparison.png
+  - images/roc_curves_comparison.png
+
+
+--------------------------------------------------------------------------------
+3. MODELS
+--------------------------------------------------------------------------------
+
+| ID         | Model Name              | Description                                      |
+|------------|-------------------------|--------------------------------------------------|
+| logistic   | Logistic Regression      | Linear classifier with L2 regularization        |
+| rf         | Random Forest            | Ensemble of decision trees                       |
+| brf        | Balanced Random Forest   | RF with per-tree undersampling for imbalance     |
+| svm        | SVM (RBF)                | Support vector machine with RBF kernel           |
+| extratrees | Extra Trees              | Random forest variant with extra randomness      |
+| mlp        | MLP Neural Network       | Multi-layer perceptron (ReLU/tanh)               |
+| xgboost    | XGBoost                  | Gradient boosting (XGBoost)                      |
+| catboost   | CatBoost                 | Gradient boosting (Yandex)                      |
+| lightgbm   | LightGBM                 | Gradient boosting (Microsoft)                    |
+| ensemble   | Ensemble (Voting)        | Soft voting over base classifiers               |
+| stacking   | Stacking (Meta-Learner)  | Meta-learner on base model probabilities         |
+
+Training: SMOTE + synthetic jitter; StandardScaler; RandomizedSearchCV with
+accuracy scoring. Best model by accuracy (F1 tie-breaker) is saved as default.
+
+
+--------------------------------------------------------------------------------
+4. MODEL COMPARISON TABLE (CORRECT ACCURACIES)
+--------------------------------------------------------------------------------
+
+Evaluated on test set (20% holdout). Run: python backend/evaluate_models.py
+
+Model                         | Accuracy  | F1 (weighted) | ROC-AUC
+------------------------------|-----------|---------------|--------
+Extra Trees                   | 64.63%    | 0.6258        | 0.6442
+Random Forest                 | 64.48%    | 0.6353        | 0.6589
+Balanced Random Forest        | 64.18%    | 0.6307        | 0.6645
+LightGBM                     | 63.57%    | 0.6278        | 0.6444
+Ensemble (Voting)             | 63.57%    | 0.6278        | 0.6388
+Stacking (Meta-Learner)       | 63.41%    | 0.6241        | 0.6412
+XGBoost                      | 63.11%    | 0.6234        | 0.6372
+CatBoost                     | 62.96%    | 0.6225        | 0.6378
+MLP Neural Network           | 58.99%    | 0.5892        | 0.5778
+SVM (RBF)                    | 54.73%    | 0.5474        | 0.5709
+Logistic Regression          | 51.37%    | 0.5177        | 0.5501
+
+
+--------------------------------------------------------------------------------
+5. PROJECT FOLDER STRUCTURE
+--------------------------------------------------------------------------------
+
+water quality forcasting and visualization/
+|
+|-- file.txt                    # This file (project info summary)
+|-- README.md                   # Project overview, quick start, API
+|-- run.py                      # Run frontend + backend together
+|-- .gitignore
+|
+|-- doc/                        # Project documentation
+|   |-- README.md                # Table of contents
+|   |-- system_architecture.md   # System architecture (Mermaid diagrams)
+|   |-- 01_abstract.md
+|   |-- 02_introduction.md
+|   |-- 03_related_work.md
+|   |-- 04_methodology.md
+|   |-- 05_folder_structure.md
+|   |-- 06_figures.md
+|   |-- 07_conclusion.md
+|   |-- 08_future_work.md
+|   |-- 09_references.md
+|   |-- 10_images_gallery.md
+|
+|-- images/                     # Figures (confusion matrices, comparison)
+|   |-- .gitkeep
+|   |-- confusion_matrix_grid.png
+|   |-- model_comparison.png
+|   |-- roc_curves_comparison.png
+|   |-- confusion_matrices/
+|   |   |-- confusion_matrix_brf.png
+|   |   |-- confusion_matrix_catboost.png
+|   |   |-- confusion_matrix_ensemble.png
+|   |   |-- confusion_matrix_extratrees.png
+|   |   |-- confusion_matrix_lightgbm.png
+|   |   |-- confusion_matrix_logistic.png
+|   |   |-- confusion_matrix_mlp.png
+|   |   |-- confusion_matrix_rf.png
+|   |   |-- confusion_matrix_stacking.png
+|   |   |-- confusion_matrix_svm.png
+|   |   |-- confusion_matrix_xgboost.png
+|
+|-- backend/                    # Python API & ML
+|   |-- app/
+|   |   |-- __init__.py
+|   |   |-- config.py            # Paths, AVAILABLE_MODELS, get_default_model_id
+|   |   |-- features.py          # RAW_FEATURES, add_derived_features, prepare_features_from_dict
+|   |   |-- main.py              # FastAPI app, endpoints
+|   |   |-- predict.py            # load_model, predict
+|   |   |-- stacking.py          # StackingPredictor (meta-learner)
+|   |-- data/
+|   |   |-- water_potability.csv  # Dataset
+|   |-- models/                  # Trained models (after train.py)
+|   |   |-- model_brf.pkl
+|   |   |-- model_catboost.pkl
+|   |   |-- model_ensemble.pkl
+|   |   |-- model_extratrees.pkl
+|   |   |-- model_lightgbm.pkl
+|   |   |-- model_logistic.pkl
+|   |   |-- model_mlp.pkl
+|   |   |-- model_rf.pkl
+|   |   |-- model_stacking.pkl
+|   |   |-- model_svm.pkl
+|   |   |-- model_xgboost.pkl
+|   |   |-- water_quality_model.pkl   # Default (best) model copy
+|   |   |-- scaler.pkl
+|   |   |-- best_model.json           # best_model_id, accuracy
+|   |-- notebooks/
+|   |   |-- 01_eda.ipynb
+|   |   |-- 02_preprocessing.ipynb
+|   |   |-- 03_visualization.ipynb
+|   |   |-- 04_model_building.ipynb
+|   |   |-- 05_model_comparison.ipynb
+|   |-- notebook_outputs/        # Figures from notebooks
+|   |   |-- fig_000.png ... fig_011.png
+|   |   |-- plotly_3d.html
+|   |-- train.py                 # Main training script (all models, SMOTE, tuning)
+|   |-- run_server.py
+|   |-- run_notebooks.py
+|   |-- save_model_figures.py    # Save confusion matrices & comparison plots
+|   |-- requirements.txt
+|
+|-- frontend/                   # React + TypeScript (Vite)
+|   |-- src/
+|   |   |-- api/
+|   |   |   |-- client.ts       # predict, getModels, getStats, etc.
+|   |   |-- components/
+|   |   |   |-- PredictionForm.tsx
+|   |   |   |-- PredictionResult.tsx
+|   |   |   |-- PredictionGraph.tsx
+|   |   |   |-- Charts2D.tsx
+|   |   |   |-- Charts3D.tsx
+|   |   |   |-- RealityTunnel.tsx
+|   |   |   |-- WaterQualityChatbot.tsx
+|   |   |   |-- Navigation.tsx
+|   |   |   |-- ThemeToggle.tsx
+|   |   |-- context/
+|   |   |   |-- ThemeContext.tsx
+|   |   |-- data/
+|   |   |   |-- waterQualityQA.ts   # 100 Q&A for chatbot
+|   |   |-- pages/
+|   |   |   |-- HomePage.tsx
+|   |   |   |-- PredictionPage.tsx
+|   |   |   |-- GraphsPage.tsx
+|   |   |   |-- TunnelPage.tsx      # Dashboard
+|   |   |-- types/
+|   |   |   |-- api.ts
+|   |   |-- App.tsx
+|   |   |-- main.tsx
+|   |   |-- index.css
+|   |-- index.html
+|   |-- package.json
+|   |-- vite.config.ts
+
+
+--------------------------------------------------------------------------------
+6. QUICK REFERENCE
+--------------------------------------------------------------------------------
+
+Train models:     cd backend && python train.py
+Run app:          python run.py   (backend :8000, frontend :5173)
+Notebooks:        backend/notebooks/  (01 → 05)
+Best model info:  backend/models/best_model.json
+Full docs:        doc/README.md
+
+================================================================================
+End of file
+================================================================================

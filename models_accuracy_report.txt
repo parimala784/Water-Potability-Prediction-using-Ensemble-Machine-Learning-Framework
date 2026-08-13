@@ -1,0 +1,61 @@
+================================================================================
+  WATER QUALITY PREDICTION - ALL MODELS & ACCURACY REPORTS
+================================================================================
+  Evaluated on 20% held-out test set (stratified, random_state=42)
+  Run: python backend/evaluate_models.py to regenerate
+================================================================================
+
+
+TABLE 1: MODELS AND ACCURACY (sorted by Accuracy, highest first)
+--------------------------------------------------------------------------------
+
+Model                          | Accuracy  | F1 (weighted) | ROC-AUC
+-------------------------------|-----------|---------------|--------
+Extra Trees                    | 64.63%    | 0.6258        | 0.6442
+Random Forest                  | 64.48%    | 0.6353        | 0.6589
+Balanced Random Forest         | 64.18%    | 0.6307        | 0.6645
+LightGBM                       | 63.57%    | 0.6278        | 0.6444
+Ensemble (Voting)               | 63.57%    | 0.6278        | 0.6388
+Stacking (Meta-Learner)        | 63.41%    | 0.6241        | 0.6412
+XGBoost                        | 63.11%    | 0.6234        | 0.6372
+CatBoost                       | 62.96%    | 0.6225        | 0.6378
+MLP Neural Network             | 58.99%    | 0.5892        | 0.5778
+SVM (RBF)                      | 54.73%    | 0.5474        | 0.5709
+Logistic Regression            | 51.37%    | 0.5177        | 0.5501
+
+
+TABLE 2: MODEL IDs AND DESCRIPTIONS
+--------------------------------------------------------------------------------
+
+Model ID       | Display Name              | Type / Description
+---------------|---------------------------|------------------------------------------
+extratrees     | Extra Trees               | Random forest variant, best accuracy
+rf             | Random Forest             | Ensemble of decision trees
+brf            | Balanced Random Forest    | RF with per-tree undersampling
+lightgbm       | LightGBM                  | Gradient boosting (Microsoft)
+ensemble       | Ensemble (Voting)         | Soft voting over base models
+stacking       | Stacking (Meta-Learner)    | Meta-learner on base probabilities
+xgboost        | XGBoost                   | Gradient boosting
+catboost       | CatBoost                  | Gradient boosting (Yandex)
+mlp            | MLP Neural Network        | Multi-layer perceptron
+svm            | SVM (RBF)                 | Support vector machine, RBF kernel
+logistic       | Logistic Regression       | Linear classifier with L2
+
+
+TABLE 3: ACCURACY REPORT SUMMARY
+--------------------------------------------------------------------------------
+
+Metric            | Description
+------------------|-------------------------------------------------------------
+Accuracy          | % of correct predictions (potable vs non-potable) on test set
+F1 (weighted)     | Weighted F1 score; balances precision and recall
+ROC-AUC           | Area under ROC curve; probability ranking quality
+
+Best model        | Extra Trees (64.63% accuracy) — used as default in the app
+Decision threshold| 0.5 (probability_potable >= 0.5 → Potable)
+Rule overrides    | ph outside 5–10, THMs > 80, Turbidity > 5, Sulfate > 500 → Not Potable
+
+
+================================================================================
+End of report
+================================================================================

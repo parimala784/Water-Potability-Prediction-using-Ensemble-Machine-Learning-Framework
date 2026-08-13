@@ -1,0 +1,42 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.env.local
+*.egg-info/
+dist/
+build/
+
+# ML / Training artifacts
+backend/catboost_info/
+
+# Node
+node_modules/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# ML model files
+*.pkl
+*.joblib
